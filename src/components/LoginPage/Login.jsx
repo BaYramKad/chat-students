@@ -9,6 +9,7 @@ const LoginStyle = styled.div`
 `
 
 export const Button = styled.button`
+  margin-left: ${props => props.marginLeft ? props.marginLeft : '0'};
   padding: 5px;
   outline: none;
   cursor: pointer;

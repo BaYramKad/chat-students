@@ -26,7 +26,6 @@ const Input = styled.div`
       margin-left: 10px;
     }
 `
-
 const Messages = styled.div`
   border: 2px solid #000;
   width: 90%;
@@ -64,7 +63,6 @@ const Message = styled.div`
   margin-left: ${({isEmail}) => isEmail ? '0' : 'auto'};
   border: 3px solid ${({isEmail}) => isEmail ? 'blue' : 'red'};
 `
-
 const MainPageMessage = styled.div`
   position: absolute;
   height: calc(100% - 55px);
@@ -79,12 +77,10 @@ function MainPage() {
   const [message, setMessage] = useState('')
   const {auth, db } = useContext(Context)
   const [user] = useAuthState(auth)
-  const [ messages, loading, error, snapshot ] = useCollectionData(query(
-      collection(db, 'messages'),  
-      orderBy('createdAt')
-    ))
+  const [ messages, loading, error, snapshot ] = useCollectionData(query(collection(db, 'messages'), orderBy('createdAt')))
+  const [readyForQuiz] = useCollectionData(query(collection(db, 'readyForQuiz'), orderBy('createdAt')))
 
-console.log(messages);
+
   const sendMessage = async () => {
     const docRef = await addDoc(collection(db, "messages"), {
       displayName: user.displayName,
