@@ -1,30 +1,30 @@
-import React, { useEffect } from 'react'
+import React, { useContext } from 'react'
 import './App.css';
 
-import { Route } from 'react-router-dom';
-
 import TitleComponent from './components/TitleComponent.jsx'
-import MainPage from './components/MainPage/MainPage.jsx';
-import Login from './components/LoginPage/Login.jsx';
-import { useHistory } from 'react-router-dom';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import AppRouter from './components/routingComponent';
+import styled from 'styled-components'
+import { Context } from '.';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import Loader from './components/Loader';
 
-function App() {
-  const history = useHistory()
-  const auth = getAuth()
-  
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-            user ? history.push('/main') : history.push('/login')
-    })
-  }, [])
+const AppWrapper = styled.div`
+
+`
+
+function App() { 
+  const {auth} = useContext(Context)
+  const [user, loading, error] = useAuthState(auth)
+
+  if(loading) {
+    return <Loader />
+  }
 
   return (
-    <div className="App">
+    <AppWrapper className="App">
       <TitleComponent />
-      <Route path='/login' component={Login} />
-      <Route path='/main' component={MainPage} />
-    </div>
+      <AppRouter />
+    </AppWrapper>
   );
 }
 
