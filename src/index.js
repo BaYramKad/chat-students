@@ -8,7 +8,8 @@ import styled, { createGlobalStyle } from 'styled-components'
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
 import "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { collection, getFirestore, query } from "firebase/firestore";
+import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 const app = initializeApp({
   apiKey: "AIzaSyCGouqeLXFb8v-iDY6K9JmxBg-P5NeBSjk",
@@ -23,6 +24,7 @@ export const Context = createContext(null)
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const auth = getAuth()
 const db = getFirestore(app)
+
 
 const Global = createGlobalStyle`
 * {

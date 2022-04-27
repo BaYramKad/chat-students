@@ -8,6 +8,8 @@ import { Context } from '../..';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Loader from '../Loader';
 import { query, orderBy } from "firebase/firestore";
+import  ReadyForQuize from '../ReadyForQuiz';
+import { Route } from 'react-router-dom';
 
 const Input = styled.div`
     display: flex;
@@ -78,7 +80,9 @@ function MainPage() {
   const {auth, db } = useContext(Context)
   const [user] = useAuthState(auth)
   const [ messages, loading, error, snapshot ] = useCollectionData(query(collection(db, 'messages'), orderBy('createdAt')))
-  const [readyForQuiz] = useCollectionData(query(collection(db, 'readyForQuiz'), orderBy('createdAt')))
+  const [readyForQuiz] = useCollectionData(query(collection(db, 'readyForQuiz')))
+
+  const ready = readyForQuiz && readyForQuiz[0].isReady
 
 
   const sendMessage = async () => {
@@ -92,32 +96,40 @@ function MainPage() {
     });
     console.log("Document written with ID: ", docRef.id);
   }
-
+  
   if(loading) {
     return <Loader />
   }
 
-  return (<>
-  <MainPageMessage> 
-    <Messages>
-        {
-          messages.map((item, i) => {
-            return <Message isEmail={ item.email === user.email ? false : true }>
-              <img src={item.photoURL} alt="photo" />
-              <div>
-                <p key={i}> {item.message} </p>
-                <b>{item.displayName}</b>
-              </div>
-            </Message>
-          })
-        }
-    </Messages>
-    <Input>
-      <input value={message} onChange={(e) => setMessage(e.target.value)} type="text" />
-      <Button onClick={sendMessage}> Отправить </Button>
-    </Input>
-  </MainPageMessage>
-  </>)
+
+  return (<div>
+      {
+        ready ? 
+          <ReadyForQuize />
+        
+          :
+        <MainPageMessage> 
+            <Messages>
+                {
+                  messages.map((item, i) => {
+                    return <Message isEmail={ item.email === user.email ? false : true }>
+                      <img src={item.photoURL} alt="photo" />
+                      <div>
+                        <p key={i}> {item.message} </p>
+                        <b>{item.displayName}</b>
+                      </div>
+                    </Message>
+                  })
+                }
+            </Messages>
+            <Input>
+              <input value={message} onChange={(e) => setMessage(e.target.value)} type="text" />
+              <Button onClick={sendMessage}> Отправить </Button>
+            </Input>
+          </MainPageMessage>
+      }
+  
+  </div>)
 }
 
 export default MainPage
