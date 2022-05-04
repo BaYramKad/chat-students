@@ -33,10 +33,10 @@ export default function AppRouter() {
                       chatLogic.map(({path, component}) => {
                           return <Route key={path} path={path} component={component} exact={true} />
                       })
+
                       
                   }
-                  {
-                    resultsLogic.map(({path, component}) => {
+                  {resultsLogic.map(({path, component}) => {
                         return <Route key={path} path={path} component={component} exact={true} />
                     })
                   }
