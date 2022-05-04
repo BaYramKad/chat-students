@@ -1,15 +1,29 @@
-import React, { createContext } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 
 import {BrowserRouter as Router } from "react-router-dom";
 import styled, { createGlobalStyle } from 'styled-components'
-import { initializeApp } from "firebase/app";
-import { getAuth } from 'firebase/auth';
+
 import "firebase/auth";
-import { collection, getFirestore, query } from "firebase/firestore";
-import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { getAuth } from 'firebase/auth';
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+import store  from './redux';
+import { Provider } from 'react-redux';
+import { createContext } from 'react';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+const Global = createGlobalStyle`
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+`
 
 const app = initializeApp({
   apiKey: "AIzaSyCGouqeLXFb8v-iDY6K9JmxBg-P5NeBSjk",
@@ -20,29 +34,21 @@ const app = initializeApp({
   appId: "1:735809721385:web:e1eb60577f42a8060df838"
 });
 
-export const Context = createContext(null)
-const root = ReactDOM.createRoot(document.getElementById('root'));
 const auth = getAuth()
 const db = getFirestore(app)
-
-
-const Global = createGlobalStyle`
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-`
+export const Context = createContext()
 
 root.render(
   <Router>
-    <Context.Provider value={{
-        auth,
-        db
-      }}>
+    <Provider store={store}>
         <Global />
-        <App />
-    </Context.Provider>
+        <Context.Provider value={{
+          auth,
+          db
+        }}>
+          <App />
+        </Context.Provider>
+    </Provider>
   </Router>
 );
 

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const LoaderStyle = styled.div`
-.lds-ellipsis {
+&.lds-ellipsis {
     display: inline-block;
     position: relative;
     width: 80px;

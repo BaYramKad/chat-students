@@ -1,31 +1,42 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import { Context } from '../..';
+
 import styled from 'styled-components'
+import { useContext } from 'react';
+import { Context } from '../..';
 
 const LoginStyle = styled.div`
   border: 2px solid #000;
   padding: 50px;
 `
 
-export const Button = styled.button`
-  margin-left: ${props => props.marginLeft ? props.marginLeft : '0'};
-  padding: 5px;
-  outline: none;
-  cursor: pointer;
-  background: #jjk;
 
+const ButtonLogin = styled.button`
+    margin: 0 auto;
+    padding: 10px 20px;
+    border: 0;
+    outline: none;
+    background-color: #09751e;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+    &:hover {
+        background-color: #004e0fc2;
+        transition: all 0.15s ease-in-out;
+    }
 `
 
-function Login(users) {
-  const {auth} = useContext(Context)
-  const [signInWithGoogle] = useSignInWithGoogle(auth);
+
+function Login() {
+  const { auth } = useContext(Context)
+  const [ signInWithGoogle ] = useSignInWithGoogle(auth);
 
   return (
     <LoginStyle>
-        <Button onClick={() => signInWithGoogle() }>
+        <ButtonLogin onClick={() => signInWithGoogle() }>
             Войти с помощью GOOGLE
-        </Button>
+        </ButtonLogin>
     </LoginStyle>
   )
 }

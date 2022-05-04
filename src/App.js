@@ -1,30 +1,35 @@
-import React, { useContext } from 'react'
+import React, { useEffect } from 'react'
 import './App.css';
 
 import TitleComponent from './components/TitleComponent.jsx'
 import AppRouter from './components/routingComponent';
-import styled from 'styled-components'
-import { Context } from '.';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import Loader from './components/Loader';
 
-const AppWrapper = styled.div`
+import { useDispatch } from 'react-redux';
+import { getQuestionsFetch } from './redux/redusers/getQuestions';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useContext } from 'react';
+import { Context } from '.';
 
-`
 
-function App() { 
-  const {auth} = useContext(Context)
-  const [user, loading, error] = useAuthState(auth)
+function App() {
+  const { auth } = useContext(Context)
+  const [ user, loading ] = useAuthState(auth)
+
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getQuestionsFetch())
+  }, [])
 
   if(loading) {
     return <Loader />
   }
 
   return (
-    <AppWrapper className="App">
+    <div className="App">
       <TitleComponent />
       <AppRouter />
-    </AppWrapper>
+    </div>
   );
 }
 
