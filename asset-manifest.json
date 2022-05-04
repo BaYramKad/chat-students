@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/chat-students/static/css/main.ae032adc.css",
+    "main.js": "/chat-students/static/js/main.4ab2add5.js",
+    "index.html": "/chat-students/index.html",
+    "main.ae032adc.css.map": "/chat-students/static/css/main.ae032adc.css.map",
+    "main.4ab2add5.js.map": "/chat-students/static/js/main.4ab2add5.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ae032adc.css",
+    "static/js/main.4ab2add5.js"
+  ]
+}
